@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{courses.name}} {% endblock %}
+
+{% block image_block %}
+<header class="info-header">
+  <div id="page-intro" class="container-fluid d-flex align-items-center justify-content-center ">
+    <div class="row d-flex justify-content-center text-center">
+      <div class="col-md-10 text-white">
+        <!-- heading -->
+        <h2 class="display-4 font-weight-bold  p-5 " style="color:#ff5722;" > {{courses.name}} </h2>
+
+        <!-- divider -->
+        <hr style="color:#ff5722;">
+
+        <!-- description -->
+        <h4 class="white-text my-4"></h4>
+  </div>
+</header>
+{% endblock %}
+
+
+{% block content %}
+<section id="best-features" class="text-center">
+              <!-- class row for description-->
+              <div class="row d-flex justify-content-center mb-4">
+                <!-- class column -->
+                <div class="col-md-8 mb-5">
+                  <p class="grey-text"></p>
+                </div>
+              </div>
+              <!-- class row2 for cards -->
+              <div class="row d-flex justify-content-center mb-3">
+                {% for course in courses.all %}
+                <div class="col-sm-4 mb-4">
+                  <div class="card box-shadow-hover">
+                    <div class="card-body">
+                      <h5 class="card-title">{{course.id}}, Section-{{course.section}}</h5>
+                      {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
+                        <h5 class="card-title">Class code: {{course.code}} </h5>
+                        <a href="{% url 'oursystem:course_detail' pk=course.pk %}" >
+                        <button type="button" class="button-les"><span>Enter class</span></button>
+                        </a>
+                      {% endif %}
+                      {% if user.userprofileinfo.user_type == 'student' %}
+                        <a href="{% url 'oursystem:course_detail' pk=course.pk%}">
+                        <button type="button" class="button-les"><span>Join class</span></button>
+                         </a>
+                        
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+        <div class="row d-flex justify-content-center mb-3">
+          {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
+           <a href="{% url 'oursystem:course_create' %}"><button type="button" class="btn btn-success btn-lg btn-bloc" > Create new classroom </button> </a>
+          {% endif %}
+        </div>
+
+</section>
+
+
+
+
+
+
+{%endblock%}

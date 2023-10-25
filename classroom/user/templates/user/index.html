@@ -1,0 +1,106 @@
+{% extends 'base.html'  %}
+{% load static %}
+{%block title %}Classroom{% endblock%}
+
+{% block image_block%}
+<header>
+<!--Image and mask-->
+          <div id="intro" class="container-fluid d-flex align-items-lg-center justify-content-lg-center h-100">
+            <div class="row d-flex justify-content-lg-center text-lg-center">
+              <div class="col-md-10 text-white">
+                <!-- heading -->
+                <br></br>
+                <h3 class="display-4 font-weight-bold white-text  p-4 mb-4" style="color:#b2ebf2;" > Wellcome to Advance Virtual Classroom & Automated Grading System </h3>
+
+                <!-- divider -->
+                <hr style="color:#26d91f;">
+
+                <!-- description -->
+                <h4 class="white-text my-5"></h4>
+                <a href="{% url 'oursystem:course_list' %}"> <button type="button" class="btn" style="color:#1ca117;border-color:#149a0e;"> Start Now</button> </a>
+
+              </div>
+            </div>
+          </div>
+
+</header>
+{%endblock%}
+
+{% block content %}
+
+<main class="mt-5">
+  <div class="container">
+    <!-- section 1 for Classroom-->
+
+    <section class="text-center">
+                  <h2 class="mb-5 font-weight-bold" style="color:#19882c;"></h2>
+                  <!-- class row for description-->
+                  <div class="row d-flex justify-content-center mb-4">
+                    <!-- class column -->
+                    <div class="col-md-8">
+                      <p class="grey-text"></p>
+                    </div>
+                  </div>
+                  <!-- class row2 for cards -->
+                  <div class="row">
+                          {% for subject in subjects %}
+                          <div class="col-md-4 d-flex mb-5 justify-content-center">
+                            <div class="card text-center" style="width: 18rem;">
+                              <div class="card-body">
+                                <h4 class="card-title" style="color:#19882c;">{{subject.name}}</h4>
+                                <p class="card-text">{{subject.description|truncatechars:75}}</p>
+                                {% if user.is_authenticated %}
+                                  <a href="{% url 'oursystem:course_list' %}" class="btn btn-primary" style="background-color:#00bcd4;">Enter Clasroom</a>
+                                {%else%}
+                                  <p>Please First Register or login </p>
+                                <!-- <a href="{% url 'user_login' %}" class="btn btn-primary" style="background-color:#00bcd4;">Login</a> -->
+                                <!-- <a href="{% url 'register' %}" class="btn btn-primary" style="background-color:#00bcd4;">Register</a> -->
+                              
+                                {%endif%}
+                              </div>
+                            </div>
+                          </div>
+                          {% endfor %}
+                  </div>
+    </section>
+    <hr class="my-5" style="color:#19882c;">
+    <!-- Section 2: Faculty Members -->
+
+    <section class="text-center">
+      <h2 class="mb-5 font-weight-bold" style="color:#19882c;">Meet Our Faculty</h2>
+      <div class="row d-flex justify-content-center mb-4">
+          <div class="col-md-8">
+            <p class="grey-text"></p>
+          </div>
+          <div class="row d-flex justify-content-center mb-3">
+          {% for teacher in teachers %}
+          <div class="card mb-3 mr-5 ml-3" style="max-width: 500px;">
+            <div class="row no-gutters">
+                      <div class="col-md-4">
+                        <img src="{{teacher.User_Profile_Photos.url|default_if_none:'#'}}" class="card-img" alt="No image found">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title" style="color:#19882c;">{{teacher.user.first_name}} {{teacher.user.last_name}}</h5>
+                          <p class="card-text">{{teacher.user.fast_name|truncatechars:15}}</p>
+                          <p class="card-text"><small class="text-muted"></small></p>
+                        </div>
+                      </div>
+            </div>
+            </div>
+          {% endfor %}
+          </div>
+      </div>
+    </section>
+
+    <hr class="my-5" style="color:#ff5722;">
+  </div>
+
+<!-- section 3 for activities -->
+
+    
+  <hr class="my-5" style="color:#ff5722;">
+</main>
+
+
+{%endblock%}
